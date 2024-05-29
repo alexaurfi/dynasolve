@@ -10,5 +10,5 @@ class EulerScheme:
     
     def step(self, time_steps : List[itdata.IterationData], dt : float ):
         time_steps[-1].velocity = time_steps[0].velocity + time_steps[0].acceleration*dt
-        time_steps[-1].position = time_steps[0].position + time_steps[0].velocity*dt
+        time_steps[-1].position = time_steps[0].position + time_steps[-1].velocity*dt
         

@@ -10,6 +10,8 @@ class World:
         for i in range(self.integration_scheme.requiredTimeLength()):
             self.iterations.append(IterationData(nodes, interactions))
         self.interactions = interactions
+        for inter in self.interactions:
+            inter.initialize(self.iterations[-1])
 
 
     def iterate(self, dt):
@@ -20,4 +22,4 @@ class World:
             inter.compute_acceleration(self.iterations[-2], self.iterations[-1])
         self.integration_scheme.step(self.iterations, dt)
         for inter in self.interactions:
-            inter.project(self.iterations[-2], self.iterations[-1])
+            inter.project(self.iterations[-1])

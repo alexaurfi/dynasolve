@@ -45,17 +45,17 @@ class Spring(Interaction):
 
 
     def initialize(self, iteration_data : IterationData):
-        dx = iteration_data[self.idx_B,:] - iteration_data[self.idx_A,:]
+        dx = iteration_data.position[self.idx_B,:] - iteration_data.position[self.idx_A,:]
         self.L0 = torch.norm(dx, dim=1)
 
     def compute_acceleration(self,current_state : IterationData, next_state : IterationData):
-        dx = current_state[self.idx_B,:] - current_state[self.idx_A,:]
+        dx = current_state.position[self.idx_B,:] - current_state.position[self.idx_A,:]
         L = torch.norm(dx, dim=1)
         dir = dx/L
         dL = L - self.L0
         F = -dL*self.stiffness*dir
-        next_state.acceleration[self.idx_A] += F/current_state.mass[self.idx_A]
-        next_state.acceleration[self.idx_B] -= F/current_state.mass[self.idx_B]
+        next_state.acceleration[self.idx_A] -= F/current_state.mass[self.idx_A]
+        next_state.acceleration[self.idx_B] += F/current_state.mass[self.idx_B]
 
 
 class AirFriction(Interaction):
