@@ -1,6 +1,7 @@
 import pyglet
 import dyna.world as wd
 
+
 class DynaScene:
     def __init__(self, world : wd.World):
         self.size = (200,200)

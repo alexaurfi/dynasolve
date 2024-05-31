@@ -6,7 +6,10 @@ import integration_scheme as integ
 
 
 class TestEulerScheme(unittest.TestCase):
-    def test_basic_model(self):
+    def test_basic_integration(self):
+        pass
+    
+    def test_pendulum(self):
         integration_scheme = integ.EulerScheme()
         interactions = []
         nodes = [[0.0,0.0,0.0] , [1.0,0.0,0.0]]
@@ -17,12 +20,16 @@ class TestEulerScheme(unittest.TestCase):
         world = wd.World(integration_scheme, nodes, interactions)
 
         
-        for i in range(0,100):
+        for i in range(0,50):
             for j in range(0,20):
                 world.iterate(0.01)
-            print("position---------------------------------")
-            print(world.iterations[-2].position)
-            print(world.iterations[-1].position)
+        print(world.iterations[-2].position)
+        print(world.iterations[-1].position)
+        assert abs( world.iterations[-1].position[0,0] ) < 0.0001
+        assert abs( world.iterations[-1].position[0,1] ) < 0.0001
+        assert abs( world.iterations[-1].position[1,0]  - 0.0061) < 0.0001
+        assert abs( world.iterations[-1].position[1,1]  + 1.05) < 0.0001
+
 
 if __name__ == '__main__':
     unittest.main()
